@@ -12,6 +12,23 @@
 // con difficoltà 1 =>  tra 1 e 80
 // con difficoltà 2 => tra 1 e 50
 
+var difficolta = parseInt(prompt("Difficolta : 0, 1 o 2 ?"));
+
+var range;
+
+if(difficolta == 0){
+  range = 100;
+} else if (difficolta == 1){
+  range = 80;
+} else if (difficolta == 2){
+  range = 50;
+} else (difficolta == 3 || difficolta == 4 ) {
+  range = 10;
+}
+console.log(range);
+
+var possibile = range - 16;
+
 // Funzione che dato un array ed un elemnto , ritorna true se l'elemento è presente nell'array altrimenti ritorna false
 function inArray(array, elemento) {
   var trovato = false;
@@ -20,14 +37,14 @@ function inArray(array, elemento) {
     if(array[i] == elemento ){
       trovato = true;
     }
-    i++
+    i++;
   }
   return trovato;
 }
 
 // Funzione che genera un numero random in un range(min , max)
 function generaNumRandom(min, max) {
-  var num = Math.floor(Math.random() * (max - min + 1)) + min;
+  var num = Math.floor(Math.random() * max - min + 1) + min;
   return num;
 }
 
@@ -36,7 +53,7 @@ function generaNumRandom(min, max) {
 var listaBombe = [];
 
 while(listaBombe.length < 16){
-  var numCasuale = generaNumRandom(1, 100);
+  var numCasuale = generaNumRandom(1, range);
 
   if (inArray(listaBombe, numCasuale) == false) {
     listaBombe.push(numCasuale);
@@ -48,12 +65,12 @@ console.log(listaBombe);
 var numeriInseriti = [];
 var bombaEsplosa = false;
 
-while (numeriInseriti.length < 84 && bombaEsplosa == false){
-  var numUtente = parseInt(prompt("Inserisci un numero da 1 a 100"));
+while (numeriInseriti.length < possibile && bombaEsplosa == false) {
+  var numUtente = parseInt(prompt("Inserisci un numero da 1 a" + " " + range"));
 
-  if(isNaN(numUtente) || numUtente > 100 || numUtente <1){
-    alert("DEVI INSERIRE UN NUMERO DA 1 A 100!!!")
-  } else if(inArray(numeriInseriti,numUtente) == false){
+  if(isNaN(numUtente) || numUtente > range || numUtente <1) {
+    alert("DEVI INSERIRE UN NUMERO DA 1 A" + " " + range" + "!!");
+  } else if(inArray(numeriInseriti,numUtente) == false) {
     // Se il numero è presente tra i numeri generati precedentemente , il gioco termina
     if(inArray(listaBombe,numUtente) == true){
       bombaEsplosa = true;
@@ -61,7 +78,9 @@ while (numeriInseriti.length < 84 && bombaEsplosa == false){
       numeriInseriti.push(numUtente);
     }
   }
+  console.log(numeriInseriti);
 }
+
 // 3) Stampa il livello in cui l'utente è arrivato
 if(bombaEsplosa == true){
   alert("Hai perso. Livello raggiunto :" + " " + numeriInseriti.length);
